@@ -25,10 +25,10 @@ SwitchA = Pin(0, Pin.IN, Pin.PULL_UP)
 SwitchB = Pin(2, Pin.IN, Pin.PULL_UP)
 
 # 光敏传感器
-adc = ADC(Pin(39))
-adc.atten(ADC.ATTN_11DB)
-adc.width(ADC.WIDTH_9BIT)
+Light = ADC(Pin(39))
+Light.atten(ADC.ATTN_11DB)
+Light.width(ADC.WIDTH_9BIT)
 
 # 屏幕
 spi = SoftSPI(baudrate=40000000, polarity=1, phase=0, sck=Pin(14), mosi=Pin(13), miso=Pin(35))
-display = st7789.ST7789(spi, 240, 240, reset=Pin(12, Pin.OUT), cs=Pin(15, Pin.OUT), dc=Pin(4, Pin.OUT))
+Display = st7789.ST7789(spi, 240, 240, reset=Pin(12, Pin.OUT), cs=Pin(15, Pin.OUT), dc=Pin(4, Pin.OUT))
