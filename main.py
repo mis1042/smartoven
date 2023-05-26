@@ -1,11 +1,14 @@
+import pages.page0
 from config.board_info import *
 import vga1_8x8 as f8x8
 import vga1_16x16 as f16x16
 import utime
+from pages import *
 
 
 def main():
     init()
+    pages.page0.loadpage()
 
 
 def init():
