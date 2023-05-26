@@ -10,7 +10,7 @@ PIN4 = 39
 PIN5 = 0
 PIN6 = 16
 PIN7 = 17
-PIN8 = 28
+PIN8 = 26
 PIN9 = 25
 PIN10 = 36
 PIN11 = 2
@@ -31,4 +31,4 @@ Light.width(ADC.WIDTH_9BIT)
 
 # 屏幕
 spi = SoftSPI(baudrate=40000000, polarity=1, phase=0, sck=Pin(14), mosi=Pin(13), miso=Pin(35))
-Display = st7789.ST7789(spi, 240, 240, reset=Pin(12, Pin.OUT), cs=Pin(15, Pin.OUT), dc=Pin(4, Pin.OUT))
+Display = st7789.ST7789(spi, 240, 240, reset=Pin(12, Pin.OUT), cs=Pin(15, Pin.OUT), dc=Pin(4, Pin.OUT), rotation=1)
