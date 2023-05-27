@@ -1,5 +1,5 @@
-from machine import Pin, ADC, SoftSPI
 import st7789
+from machine import Pin, ADC, SoftSPI
 
 # 物理引脚与逻辑引脚对应，作为常量禁止修改！
 PIN0 = 33

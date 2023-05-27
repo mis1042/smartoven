@@ -1,28 +1,26 @@
-# 全局配置文件
-ssid = 'GZGD-2.4GQ3Ds'
-password = '96789954'
+def init_var():
+    global var_list
+    var_list = {}
 
-# 运行时全局变量定义勿动
-network_mode = 0
-"""
-network_mode：网络
-0：离线
-1：在线
-"""
 
-status = 0
-"""
-status：当前工作
-0:工作中
-1:空闲
-"""
+def read_basic_config():
+    import ujson
+    with open('/config.json', 'r') as f:
+        config = f.read()
+        config = ujson.loads(config)
+    set_var('ssid', config['Network_Config']['ssid'])
+    set_var('password', config['Network_Config']['password'])
+    set_var('device_id', config['Device_Config']['id'])
+    set_var('device_name', config['Device_Config']['name'])
+    set_var('server', config['Server_Config']['server'])
+    set_var('port', config['Server_Config']['port'])
+    set_var('connect_username', config['Server_Config']['user'])
+    set_var('connect_password', config['Server_Config']['password'])
 
-mac = ''
-"""
-MAC地址
-"""
 
-ipconfig = ''
-"""
-网络配置
-"""
+def set_var(key, value):
+    var_list[key] = value
+
+
+def getvalue(key):
+    return var_list[key]

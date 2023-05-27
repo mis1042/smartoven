@@ -1,0 +1,16 @@
+{
+  "Network_Config": {
+    "ssid": "ssid",
+    "password": "password"
+  },
+  "Device_Config": {
+    "id": 12345678,
+    "name": ""
+  },
+  "Server_Config": {
+    "server": "",
+    "port": 1883,
+    "user": "",
+    "password": ""
+  }
+}
