@@ -2,7 +2,6 @@ import time
 
 import network
 import ntptime
-import urequests
 import vga1_8x16 as font
 
 import main
@@ -26,13 +25,8 @@ while not wlan.status() == network.STAT_GOT_IP:
     pass
 if wlan.isconnected():
     Display.text(font, 'SUCCESS', 0, line, st7789.color565(0, 255, 0))
-    try:
-        urequests.get('https://www.baidu.com')
-        set_var('ipconfig', wlan.ifconfig())
-        set_var('network_mode', 1)
-    except:
-        Display.text(font, 'No Internet', 0, line, st7789.color565(255, 0, 0))
-        set_var('network_mode', 0)
+    set_var('ipconfig', wlan.ifconfig())
+    set_var('network_mode', 1)
 else:
     Display.text(font, 'FAILED', 0, line, st7789.color565(255, 0, 0))
     set_var('network_mode', 0)

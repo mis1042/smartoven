@@ -3,6 +3,7 @@ from config.global_variable import *
 import pages.home
 import pages.about
 
+
 def main():
     utime.sleep(2)
     set_var('page', 'home')
@@ -15,8 +16,3 @@ def main():
         remove_var('to_page')
         nextpage.loadpage()
         nextpage.updatepage()
-
-
-
-
-

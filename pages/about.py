@@ -2,13 +2,11 @@
 
 import vga1_16x16 as f16x16
 import vga1_8x16 as f8x16
+
 import pages.home
 from config.board_info import *
 from config.global_variable import *
 from tools import AutoLine
-
-
-
 
 
 def loadpage():
