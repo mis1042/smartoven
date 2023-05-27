@@ -1,11 +1,22 @@
 import utime
-import pages.about
 from config.global_variable import *
-
+import pages.home
+import pages.about
 
 def main():
     utime.sleep(2)
-    set_var('page', 'about')
-    pages.about.start_page()
+    set_var('page', 'home')
+    pages.home.loadpage()
+    pages.home.updatepage()
     while True:
-        pass
+        while getvalue('to_page') is None:
+            pass
+        nextpage = getvalue('to_page')
+        remove_var('to_page')
+        nextpage.loadpage()
+        nextpage.updatepage()
+
+
+
+
+

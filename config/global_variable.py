@@ -23,4 +23,11 @@ def set_var(key, value):
 
 
 def getvalue(key):
-    return var_list[key]
+    if key in var_list:
+        return var_list[key]
+    else:
+        return None
+
+
+def remove_var(key):
+    var_list.pop(key)
