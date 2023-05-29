@@ -17,6 +17,8 @@ def loadpage():
     Display.text(f8x16, '', 0, line)
     Display.text(f8x16, f'DeviceID: {str(getvalue("device_id"))}', 0, line)
     Display.text(f8x16, '', 0, line)
+    Display.text(f8x16, f'Internal Temp: {str(ds18b20.read())} C', 0, line)
+    Display.text(f8x16, '', 0, line)
     if getvalue('network_mode') == 1:
         Display.text(f8x16, f'Device IP: {str(getvalue("ipconfig")[0])}', 0, line)
     elif getvalue('network_mode') == 0:

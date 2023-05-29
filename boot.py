@@ -66,13 +66,17 @@ if getvalue('network_mode') == 1:
         nowtime[0], nowtime[1], nowtime[2], nowtime[3], nowtime[4], nowtime[5]), 0, line)
 
     # 检查温度传感器
-    Display.text(font, 'Checking Sensor 1', 0, line)
-    # 一会再写吧
-    Display.text(font, 'SUCCESS', 0, line, st7789.color565(0, 255, 0))
+errors = 0
+Display.text(font, 'Checking Temp Sensor 1', 0, line)
+try:
+    Display.text(font, f'SUCCESS,Value is {ds18b20.read()} C', 0, line, st7789.color565(0, 255, 0))
+except:
+    errors += 1
+    Display.text(font, 'Temp Sensor 1 FAILED', 0, line, st7789.color565(255, 0, 0))
 
-    Display.text(font, 'Checking Sensor 2', 0, line)
-    # 一会再写吧
-    Display.text(font, 'SUCCESS', 0, line, st7789.color565(0, 255, 0))
-    Display.text(font, 'Initialization Completed', 0, line, st7789.color565(0, 255, 0))
+Display.text(font, 'Checking Sensor 2', 0, line)
+# 一会再写吧
+Display.text(font, 'SUCCESS', 0, line, st7789.color565(0, 255, 0))
+Display.text(font, 'Initialization Completed', 0, line, st7789.color565(0, 255, 0))
 
 main.main()
