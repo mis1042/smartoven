@@ -17,10 +17,12 @@ def loadpage():
     Display.text(f8x16, '', 0, line)
     Display.text(f8x16, f'DeviceID: {str(getvalue("device_id"))}', 0, line)
     Display.text(f8x16, '', 0, line)
-    if getvalue('network_mode'):
+    if getvalue('network_mode') == 1:
         Display.text(f8x16, f'Device IP: {str(getvalue("ipconfig")[0])}', 0, line)
-    else:
+    elif getvalue('network_mode') == 0:
         Display.text(f8x16, 'Network Not Connected', 0, line, st7789.color565(255, 0, 0))
+    else:
+        Display.text(f8x16, 'Network Not Configured', 0, line, st7789.color565(255, 0, 0))
 
 
 def updatepage():

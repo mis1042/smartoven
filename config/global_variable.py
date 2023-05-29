@@ -3,11 +3,13 @@ def init_var():
     var_list = {}
 
 
+config_file = '/config.json'
+
+
 def read_basic_config():
     import ujson
-    with open('/config.json', 'r') as f:
-        config = f.read()
-        config = ujson.loads(config)
+    with open(config_file, 'r') as f:
+        config = ujson.loads(f.read())
     set_var('ssid', config['Network_Config']['ssid'])
     set_var('password', config['Network_Config']['password'])
     set_var('device_id', config['Device_Config']['id'])
