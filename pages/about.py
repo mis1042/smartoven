@@ -16,8 +16,19 @@ def loadpage():
     Display.text(f8x16, f'DeviceName: {str(getvalue("device_name"))}', 0, line)
     Display.text(f8x16, '', 0, line)
     Display.text(f8x16, f'DeviceID: {str(getvalue("device_id"))}', 0, line)
+
     Display.text(f8x16, '', 0, line)
-    Display.text(f8x16, f'Internal Temp: {str(ds18b20.read())} C', 0, line)
+    set_var('high_temp_line', line.get_line())
+    Display.text(f8x16, f'Internal Temp: {str(round(ds18b20.read_tmp(), 1))} C', 0, getvalue('high_temp_line'))
+
+    Display.text(f8x16, '', 0, line)
+    set_var('low_temp_line', line.get_line())
+    Display.text(f8x16, f'Ambient Temp: {str(round(dht1.read_tmp().temperature(), 1))} C', 0, getvalue('low_temp_line'))
+
+    Display.text(f8x16, '', 0, line)
+    set_var('low_hum_line', line.get_line())
+    Display.text(f8x16, f'Ambient Hum: {str(round(dht1.read_tmp().humidity(), 1))} %', 0, getvalue('low_hum_line'))
+
     Display.text(f8x16, '', 0, line)
     if getvalue('network_mode') == 1:
         Display.text(f8x16, f'Device IP: {str(getvalue("ipconfig")[0])}', 0, line)
@@ -29,6 +40,26 @@ def loadpage():
 
 def updatepage():
     while getvalue('page') == 'about':
+        if SwitchA.value() and SwitchB.value():
+
+            Display.rect(0, getvalue('high_temp_line'), 1000, 18, st7789.color565(0, 0, 0))
+            value = ds18b20.read()
+            if getvalue('high_temp_error') != 1:
+                Display.text(f8x16, f'Internal Temp: {str(round(value, 1))} C', 0, getvalue('high_temp_line'))
+            else:
+                Display.text(f8x16, f'Internal Temp: FAILED', 0, getvalue('high_temp_line'), st7789.color565(255, 0, 0))
+
+            Display.rect(0, getvalue('low_temp_line'), 240, 18, st7789.color565(0, 0, 0))
+            value = dht1.read()
+            if getvalue('low_temp_error') != 1:
+                Display.text(f8x16, f'Ambient Temp: {str(round(value.temperature(), 1))} C', 0, getvalue('low_temp_line'))
+                Display.rect(0, getvalue('low_hum_line'), 240, 18, st7789.color565(0, 0, 0))
+                Display.text(f8x16, f'Ambient Hum: {str(round(value.humidity(), 1))} %', 0, getvalue('low_hum_line'))
+            else:
+                Display.text(f8x16, f'Ambient Temp: FAILED', 0, getvalue('low_temp_line'), st7789.color565(255, 0, 0))
+                Display.rect(0, getvalue('low_hum_line'), 240, 18, st7789.color565(0, 0, 0))
+                Display.text(f8x16, f'Ambient Hum: FAILED', 0, getvalue('low_hum_line'), st7789.color565(255, 0, 0))
+
         if not SwitchA.value() and not SwitchB.value():
             line1 = AutoLine(40, 18)
             Display.fill(0)

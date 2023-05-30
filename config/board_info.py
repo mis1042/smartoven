@@ -2,7 +2,9 @@ import st7789
 from machine import Pin, ADC, SoftSPI
 import onewire
 import ds18x20
-from tools import HighTemp
+from tools import HighTemp, LowTemp
+import dht
+
 
 # 物理引脚与逻辑引脚对应，作为常量禁止修改！
 PIN0 = 33
@@ -42,3 +44,7 @@ ow = onewire.OneWire(Pin(PIN15))
 ds = ds18x20.DS18X20(ow)
 rom = ds.scan()[0]
 ds18b20 = HighTemp(ds, rom)
+
+# DHT11 温湿度传感器
+d_object = dht.DHT11(Pin(PIN16))
+dht1 = LowTemp(d_object)

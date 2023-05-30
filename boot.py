@@ -68,15 +68,25 @@ if getvalue('network_mode') == 1:
     # 检查温度传感器
 errors = 0
 Display.text(font, 'Checking Temp Sensor 1', 0, line)
-try:
-    Display.text(font, f'SUCCESS,Value is {ds18b20.read()} C', 0, line, st7789.color565(0, 255, 0))
-except:
+value = ds18b20.read()
+if getvalue('high_temp_error') == 1:
     errors += 1
     Display.text(font, 'Temp Sensor 1 FAILED', 0, line, st7789.color565(255, 0, 0))
+else:
+    Display.text(font, f'SUCCESS,Value is {round(ds18b20.read(), 1)} C', 0, line, st7789.color565(0, 255, 0))
 
 Display.text(font, 'Checking Sensor 2', 0, line)
-# 一会再写吧
-Display.text(font, 'SUCCESS', 0, line, st7789.color565(0, 255, 0))
+value = dht1.read()
+if getvalue('low_temp_error') == 1:
+    errors += 1
+    Display.text(font, 'Temp Sensor 2 FAILED', 0, line, st7789.color565(255, 0, 0))
+else:
+    Display.text(font, f'SUCCESS,Value is {round(value.temperature(), 1)} C', 0, line, st7789.color565(0, 255, 0))
+    Display.text(font, f'SUCCESS,Value is {round(value.humidity(), 1)} %', 0, line, st7789.color565(0, 255, 0))
+
+while errors > 0:
+    pass
+
 Display.text(font, 'Initialization Completed', 0, line, st7789.color565(0, 255, 0))
 
 main.main()

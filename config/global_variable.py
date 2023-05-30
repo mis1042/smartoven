@@ -32,4 +32,7 @@ def getvalue(key):
 
 
 def remove_var(key):
-    var_list.pop(key)
+    try:
+        var_list.pop(key)
+    except:
+        pass
