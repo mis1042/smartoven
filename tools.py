@@ -23,27 +23,22 @@ class TempSensor:
         self.device_object = device_object
         self.last_read = 0
         self.value = 0
+        self.remeasure_time = 1
 
     def measure(self):
         pass
 
     def read(self):
-        if self.last_read == 0 or time.time() - self.last_read >= 1:
+        if self.last_read == 0 or time.time() - self.last_read >= self.remeasure_time:
             self.measure()
             return self.value
         else:
             return self.value
 
-    def read_tmp(self):
-        return self.value
-
 
 class HighTemp(TempSensor):
     def __init__(self, device_object, rom):
         TempSensor.__init__(self, device_object)
-        self.device_object = device_object
-        self.last_read = 0
-        self.value = 0
         self.rom = rom
 
     def measure(self):
@@ -54,6 +49,7 @@ class HighTemp(TempSensor):
                 set_var('high_temp_error', 1)
                 return
             try:
+                self.last_read = time.time()
                 self.device_object.convert_temp()
                 time.sleep_ms(750)
                 self.value = self.device_object.read_temp(self.rom)
@@ -69,7 +65,6 @@ class HighTemp(TempSensor):
 class LowTemp(TempSensor):
     def __init__(self, device_object):
         TempSensor.__init__(self, device_object)
-        self.last_read = 0
 
     def measure(self):
         start_measure = time.time()
@@ -79,6 +74,7 @@ class LowTemp(TempSensor):
                 set_var('low_temp_error', 1)
                 return
             try:
+                self.last_read = time.time()
                 self.device_object.measure()
                 time.sleep_ms(1000)
                 self.value = self.device_object

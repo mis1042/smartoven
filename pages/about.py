@@ -12,24 +12,14 @@ from tools import AutoLine
 def loadpage():
     Display.fill(0)
     line = AutoLine(40, 18)
+    ds18b20.remeasure_time = 10
+    dht1.remeasure_time = 10
     Display.text(f16x16, 'About', 80, 0)
     Display.text(f8x16, f'DeviceName: {str(getvalue("device_name"))}', 0, line)
     Display.text(f8x16, '', 0, line)
     Display.text(f8x16, f'DeviceID: {str(getvalue("device_id"))}', 0, line)
-
     Display.text(f8x16, '', 0, line)
-    set_var('high_temp_line', line.get_line())
-    Display.text(f8x16, f'Internal Temp: {str(round(ds18b20.read_tmp(), 1))} C', 0, getvalue('high_temp_line'))
 
-    Display.text(f8x16, '', 0, line)
-    set_var('low_temp_line', line.get_line())
-    Display.text(f8x16, f'Ambient Temp: {str(round(dht1.read_tmp().temperature(), 1))} C', 0, getvalue('low_temp_line'))
-
-    Display.text(f8x16, '', 0, line)
-    set_var('low_hum_line', line.get_line())
-    Display.text(f8x16, f'Ambient Hum: {str(round(dht1.read_tmp().humidity(), 1))} %', 0, getvalue('low_hum_line'))
-
-    Display.text(f8x16, '', 0, line)
     if getvalue('network_mode') == 1:
         Display.text(f8x16, f'Device IP: {str(getvalue("ipconfig")[0])}', 0, line)
     elif getvalue('network_mode') == 0:
@@ -37,11 +27,26 @@ def loadpage():
     else:
         Display.text(f8x16, 'Network Not Configured', 0, line, st7789.color565(255, 0, 0))
 
+    Display.text(f8x16, '', 0, line)
+    set_var('high_temp_line', line.get_line())
+    Display.text(f8x16, f'Internal Temp: {str(round(ds18b20.read(), 1))} C', 0, getvalue('high_temp_line'))
+
+    Display.text(f8x16, '', 0, line)
+    set_var('low_temp_line', line.get_line())
+    Display.text(f8x16, f'Ambient Temp: {str(round(dht1.read().temperature(), 1))} C', 0, getvalue('low_temp_line'))
+
+    Display.text(f8x16, '', 0, line)
+    set_var('low_hum_line', line.get_line())
+    Display.text(f8x16, f'Ambient Hum: {str(round(dht1.read().humidity(), 1))} %', 0, getvalue('low_hum_line'))
+
+    Display.text(f8x16, '', 0, line)
+
 
 def updatepage():
     while getvalue('page') == 'about':
-        if SwitchA.value() and SwitchB.value():
 
+        """
+        if SwitchA.value() and SwitchB.value():
             Display.rect(0, getvalue('high_temp_line'), 1000, 18, st7789.color565(0, 0, 0))
             value = ds18b20.read()
             if getvalue('high_temp_error') != 1:
@@ -59,6 +64,7 @@ def updatepage():
                 Display.text(f8x16, f'Ambient Temp: FAILED', 0, getvalue('low_temp_line'), st7789.color565(255, 0, 0))
                 Display.rect(0, getvalue('low_hum_line'), 240, 18, st7789.color565(0, 0, 0))
                 Display.text(f8x16, f'Ambient Hum: FAILED', 0, getvalue('low_hum_line'), st7789.color565(255, 0, 0))
+            """
 
         if not SwitchA.value() and not SwitchB.value():
             line1 = AutoLine(40, 18)

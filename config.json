@@ -1,7 +1,8 @@
 {
   "Network_Config": {
     "ssid": "ssid",
-    "password": "password"
+    "password": "password",
+    "ntp": ""
   },
   "Device_Config": {
     "id": 12345678,
