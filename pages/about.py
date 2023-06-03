@@ -47,22 +47,22 @@ def updatepage():
 
         """
         if SwitchA.value() and SwitchB.value():
-            Display.rect(0, getvalue('high_temp_line'), 1000, 18, st7789.color565(0, 0, 0))
+            Display.fill_rect(0, getvalue('high_temp_line'), 1000, 18, st7789.color565(0, 0, 0))
             value = ds18b20.read()
             if getvalue('high_temp_error') != 1:
                 Display.text(f8x16, f'Internal Temp: {str(round(value, 1))} C', 0, getvalue('high_temp_line'))
             else:
                 Display.text(f8x16, f'Internal Temp: FAILED', 0, getvalue('high_temp_line'), st7789.color565(255, 0, 0))
 
-            Display.rect(0, getvalue('low_temp_line'), 240, 18, st7789.color565(0, 0, 0))
+            Display.fill_rect(0, getvalue('low_temp_line'), 240, 18, st7789.color565(0, 0, 0))
             value = dht1.read()
             if getvalue('low_temp_error') != 1:
                 Display.text(f8x16, f'Ambient Temp: {str(round(value.temperature(), 1))} C', 0, getvalue('low_temp_line'))
-                Display.rect(0, getvalue('low_hum_line'), 240, 18, st7789.color565(0, 0, 0))
+                Display.fill_rect(0, getvalue('low_hum_line'), 240, 18, st7789.color565(0, 0, 0))
                 Display.text(f8x16, f'Ambient Hum: {str(round(value.humidity(), 1))} %', 0, getvalue('low_hum_line'))
             else:
                 Display.text(f8x16, f'Ambient Temp: FAILED', 0, getvalue('low_temp_line'), st7789.color565(255, 0, 0))
-                Display.rect(0, getvalue('low_hum_line'), 240, 18, st7789.color565(0, 0, 0))
+                Display.fill_rect(0, getvalue('low_hum_line'), 240, 18, st7789.color565(0, 0, 0))
                 Display.text(f8x16, f'Ambient Hum: FAILED', 0, getvalue('low_hum_line'), st7789.color565(255, 0, 0))
             """
 
