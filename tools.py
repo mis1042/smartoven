@@ -1,5 +1,6 @@
 import time
 from config.global_variable import *
+import math
 
 
 class AutoLine:
@@ -85,3 +86,11 @@ class LowTemp(TempSensor):
                 if error >= 3:
                     set_var('low_temp_error', 1)
                     return
+
+
+def no_adc_wrong(adc_object):
+    tmp = []
+    for i in range(150):
+        tmp.append(adc_object.read())
+    return math.ceil(sum(tmp) / len(tmp))
+

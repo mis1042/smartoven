@@ -5,7 +5,6 @@ import ds18x20
 from tools import HighTemp, LowTemp
 import dht
 
-
 # 物理引脚与逻辑引脚对应，作为常量禁止修改！
 PIN0 = 33
 PIN1 = 32
@@ -48,3 +47,9 @@ ds18b20 = HighTemp(ds, rom)
 # DHT11 温湿度传感器
 d_object = dht.DHT11(Pin(PIN16))
 dht1 = LowTemp(d_object)
+
+# 电位器
+potentiometer_temp = ADC(Pin(PIN10), atten=ADC.ATTN_11DB)
+potentiometer_temp.width(9)
+potentiometer_time = ADC(Pin(PIN4), atten=ADC.ATTN_11DB)
+potentiometer_time.width(9)
