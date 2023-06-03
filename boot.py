@@ -18,6 +18,8 @@ read_basic_config()
 Display.init()
 
 if not SwitchA.value() and not SwitchB.value():
+    main.main()
+    """
     with open(config_file, 'r') as f:
         content = ujson.loads(f.read())
     content['Network_Config']['ssid'] = "ssid"
@@ -28,6 +30,7 @@ if not SwitchA.value() and not SwitchB.value():
     Display.text(font, 'Rebooting...', 0, line, st7789.color565(255, 0, 0))
     utime.sleep(1)
     machine.reset()
+    """
 
 # 检查网络配置
 if getvalue('ssid') != 'ssid' and getvalue('password') != 'password':
@@ -57,9 +60,9 @@ else:
 # 同步正确的时间
 if getvalue('network_mode') == 1:
     error = 0
+    Display.text(font, 'Syncing Time', 0, line)
     while True:
         try:
-            Display.text(font, 'Syncing Time', 0, line)
             ntptime.NTP_DELTA = 3155644800  # 设置  UTC+8偏移时间（秒），不设置就是UTC0
             ntptime.host = getvalue('ntp')  # 可选ntp服务器为阿里云服务器，默认是"pool.ntp.org"
             ntptime.settime()
