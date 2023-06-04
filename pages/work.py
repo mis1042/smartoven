@@ -10,6 +10,7 @@ line = AutoLine(40, 18)
 
 
 def loadpage():
+    init_potentiometer()
     set_var('selected', 0)
     line = AutoLine(40, 18)
     # Display The Title
