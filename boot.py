@@ -1,15 +1,14 @@
 import time
-
-import machine
+import utime
 import network
 import ntptime
-import utime
 import vga1_8x16 as font
 import ujson
+import machine
 import main
 from config.board_info import *
 from config.global_variable import *
-from tools import AutoLine
+from tools import AutoLine, check_sensors, SensorError
 
 # 初始化
 line = AutoLine(0, 18)
@@ -18,8 +17,8 @@ read_basic_config()
 Display.init()
 
 if not SwitchA.value() and not SwitchB.value():
-    main.main()
-    """
+    # main.main()
+
     with open(config_file, 'r') as f:
         content = ujson.loads(f.read())
     content['Network_Config']['ssid'] = "ssid"
@@ -30,7 +29,6 @@ if not SwitchA.value() and not SwitchB.value():
     Display.text(font, 'Rebooting...', 0, line, st7789.color565(255, 0, 0))
     utime.sleep(1)
     machine.reset()
-    """
 
 # 检查网络配置
 if getvalue('ssid') != 'ssid' and getvalue('password') != 'password':
@@ -79,22 +77,19 @@ if getvalue('network_mode') == 1:
                 break
     # 检查温度传感器
 errors = 0
-Display.text(font, 'Checking Temp Sensor 1', 0, line)
-value = ds18b20.read()
-if getvalue('high_temp_error') == 1:
-    errors += 1
-    Display.text(font, 'Temp Sensor 1 FAILED', 0, line, st7789.color565(255, 0, 0))
-else:
-    Display.text(font, f'SUCCESS,Value is {round(ds18b20.read(), 1)} C', 0, line, st7789.color565(0, 255, 0))
-
-Display.text(font, 'Checking Sensor 2', 0, line)
-value = dht1.read()
-if getvalue('low_temp_error') == 1:
-    errors += 1
-    Display.text(font, 'Temp Sensor 2 FAILED', 0, line, st7789.color565(255, 0, 0))
-else:
-    Display.text(font, f'SUCCESS,Value is {round(value.temperature(), 1)} C', 0, line, st7789.color565(0, 255, 0))
-    Display.text(font, f'SUCCESS,Value is {round(value.humidity(), 1)} %', 0, line, st7789.color565(0, 255, 0))
+Display.text(font, 'Checking Temp Sensors', 0, line)
+try:
+    [high_temp, low_temp] = check_sensors(ds18b20, dht1)
+    Display.text(font, f'SUCCESS,Value is {round(high_temp, 1)} C', 0, line, st7789.color565(0, 255, 0))
+    Display.text(font, f'SUCCESS,Value is {round(low_temp.temperature(), 1)} C', 0, line, st7789.color565(0, 255, 0))
+    Display.text(font, f'SUCCESS,Value is {round(low_temp.humidity(), 1)} %', 0, line, st7789.color565(0, 255, 0))
+except SensorError:
+    if getvalue('high_temp_error'):
+        errors += 1
+        Display.text(font, 'Temp Sensor 1 FAILED', 0, line, st7789.color565(255, 0, 0))
+    else:
+        errors += 1
+        Display.text(font, 'Temp Sensor 2 FAILED', 0, line, st7789.color565(255, 0, 0))
 
 while errors > 0:
     pass

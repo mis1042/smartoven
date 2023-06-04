@@ -1,7 +1,8 @@
 import utime
-from config.global_variable import *
-import pages.home
+
 import pages.about
+import pages.home
+from config.global_variable import *
 
 
 def main():

@@ -1,9 +1,10 @@
+import dht
+import ds18x20
+import onewire
 import st7789
 from machine import Pin, ADC, SoftSPI
-import onewire
-import ds18x20
+
 from tools import HighTemp, LowTemp
-import dht
 
 # 物理引脚与逻辑引脚对应，作为常量禁止修改！
 PIN0 = 33
@@ -53,3 +54,6 @@ potentiometer_temp = ADC(Pin(PIN10), atten=ADC.ATTN_11DB)
 potentiometer_temp.width(9)
 potentiometer_time = ADC(Pin(PIN4), atten=ADC.ATTN_11DB)
 potentiometer_time.width(9)
+
+# 加热器（继电器）
+heater = Pin(PIN14, Pin.OUT)

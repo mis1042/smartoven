@@ -1,6 +1,7 @@
-import time
-from config.global_variable import *
 import math
+import time
+
+from config.global_variable import *
 
 
 class AutoLine:
@@ -94,3 +95,21 @@ def no_adc_wrong(adc_object):
         tmp.append(adc_object.read())
     return math.ceil(sum(tmp) / len(tmp))
 
+
+def wait_for_release(switch_a, switch_b):
+    while not switch_a.value() or not switch_b.value():
+        pass
+
+
+class SensorError(Exception):
+    pass
+
+
+def check_sensors(sensor1, sensor2):
+    value1 = sensor1.read()
+    if getvalue('high_temp_error') == 1:
+        raise SensorError('High Temp Sensor Error')
+    value2 = sensor2.read()
+    if getvalue('low_temp_error') == 1:
+        raise SensorError('Low Temp Sensor Error')
+    return value1, value2

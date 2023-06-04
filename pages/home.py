@@ -3,6 +3,7 @@ import time
 import vga1_8x16 as f8x16
 
 import pages.about
+import pages.work
 from config.board_info import *
 from config.global_variable import *
 
@@ -17,10 +18,15 @@ def updatepage():
         nowtime = time.localtime()
         Display.text(f8x16,
                      '%d-%d-%d %02d:%02d:%02d' % (
-                     nowtime[0], nowtime[1], nowtime[2], nowtime[3], nowtime[4], nowtime[5]),
+                         nowtime[0], nowtime[1], nowtime[2], nowtime[3], nowtime[4], nowtime[5]),
                      0, 1)
         time.sleep_ms(10)
         if not SwitchA.value() and SwitchB.value():
             set_var('page', 'about')
             set_var('to_page', pages.about)
+            return
+
+        if SwitchA.value() and not SwitchB.value():
+            set_var('page', 'work')
+            set_var('to_page', pages.work)
             return
