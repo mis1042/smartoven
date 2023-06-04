@@ -47,11 +47,6 @@ def updatepage():
                 status = 'Cooling'
                 heater.off()
 
-            if flame.value():
-                status = 'Flame Out!'
-                allow_heat = 0
-                heater.off()
-
             time_tuple = time.localtime(remain_time)
             Display.text(f8x16, 'Remain:%02d:%02d:%02d' % (time_tuple[3], time_tuple[4], time_tuple[5]), 0, line)
             Display.text(f8x16, '', 0, line)
