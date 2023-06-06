@@ -1,10 +1,12 @@
 import time
-import utime
+
+import machine
 import network
 import ntptime
-import vga1_8x16 as font
 import ujson
-import machine
+import utime
+import vga1_8x16 as font
+
 import main
 from config.board_info import *
 from config.global_variable import *
@@ -15,6 +17,7 @@ line = AutoLine(0, 18)
 init_var()
 read_basic_config()
 Display.init()
+heater.off()
 
 if not SwitchA.value() and not SwitchB.value():
     # main.main()
@@ -97,3 +100,4 @@ while errors > 0:
 Display.text(font, 'Initialization Completed', 0, line, st7789.color565(0, 255, 0))
 
 main.main()
+heater.off()

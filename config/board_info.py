@@ -49,14 +49,14 @@ ds18b20 = HighTemp(ds, rom)
 d_object = dht.DHT11(Pin(PIN16))
 dht1 = LowTemp(d_object)
 
-
 # 电位器
-def init_potentiometer():
-    potentiometer_temp = ADC(Pin(PIN10), atten=ADC.ATTN_11DB)
-    potentiometer_temp.width(9)
-    potentiometer_time = ADC(Pin(PIN4), atten=ADC.ATTN_11DB)
-    potentiometer_time.width(9)
-
+potentiometer_temp = ADC(Pin(PIN10), atten=ADC.ATTN_11DB)
+potentiometer_temp.width(9)
+potentiometer_time = ADC(Pin(PIN4), atten=ADC.ATTN_11DB)
+potentiometer_time.width(9)
 
 # 加热器（继电器）
 heater = Pin(PIN14, Pin.OUT)
+
+# 火焰传感器
+flame = Pin(PIN13, Pin.IN)

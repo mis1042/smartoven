@@ -10,7 +10,6 @@ line = AutoLine(40, 18)
 
 
 def loadpage():
-    init_potentiometer()
     set_var('selected', 0)
     line = AutoLine(40, 18)
     # Display The Title
@@ -32,8 +31,8 @@ def updatepage():
 
     while getvalue('page') == 'work':
         if getvalue('selected') == 0:
-            target_temp = math.ceil(40 + 80 * no_adc_wrong(potentiometer_temp) / 400)
-            work_time = math.ceil(10 + 170 * no_adc_wrong(potentiometer_time) / 395)
+            target_temp = math.ceil(40 + 80 * no_adc_wrong(potentiometer_temp) / 369)
+            work_time = math.ceil(10 + 170 * no_adc_wrong(potentiometer_time) / 369)
             if target_temp > 120:
                 target_temp = 120
             if work_time > 180:
@@ -79,29 +78,6 @@ def updatepage():
                     set_var('page', 'home')
                     set_var('to_page', pages.home)
                     return
-
-        """
-        if not SwitchA.value() and SwitchB.value() and getvalue('selected') == 0:
-            set_var('page', 'home')
-            set_var('to_page', pages.home)
-            return
-
-        if not SwitchA.value() and not SwitchB.value():
-            if getvalue('selected') == 0:
-                set_var('selected', 1)
-                Display.rect(75, 175, 90, 26, st7789.color565(255, 255, 255))
-                while not SwitchA.value() and not SwitchB.value():
-                    pass
-            elif getvalue('selected') == 1:
-                # Start Work
-                pass
-
-        if (not SwitchA.value() or not SwitchB.value()) and (getvalue('selected') == 1):
-            set_var('selected', 0)
-            Display.rect(75, 175, 90, 26, st7789.color565(0, 0, 0))
-            while not SwitchA.value() and not SwitchB.value():
-                pass
-        """
 
 
 def __update_work_time(work_time):

@@ -105,6 +105,10 @@ class SensorError(Exception):
     pass
 
 
+class FireDetected(Exception):
+    pass
+
+
 def check_sensors(sensor1, sensor2):
     value1 = sensor1.read()
     if getvalue('high_temp_error') == 1:

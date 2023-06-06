@@ -1,9 +1,8 @@
 import vga1_16x16 as f16x16
 import vga1_8x16 as f8x16
 
-from config.board_info import *
 import pages.home
-import time
+from config.board_info import *
 from tools import *
 
 
@@ -14,7 +13,6 @@ def loadpage():
 
 
 def updatepage():
-    allow_heat = 1
     target_temp = getvalue('work_config')[0]
     work_time = getvalue('work_config')[1]
     when_finish = time.time() + work_time * 60
@@ -30,17 +28,19 @@ def updatepage():
 
         try:
 
+            if flame.value():
+                raise FireDetected
+
             [high_temp, low_temp] = check_sensors(ds18b20, dht1)
             now_internal_temp = round(high_temp, 1)
             now_ambient_temp = low_temp.temperature()
             now_ambient_hum = low_temp.humidity()
-
             remain_time = when_finish - time.time()
 
             if remain_time <= 0:
                 break
 
-            if now_internal_temp <= target_temp - 5 and allow_heat:
+            if now_internal_temp <= target_temp - 5:
                 status = 'Heating'
                 heater.on()
             else:
@@ -54,7 +54,7 @@ def updatepage():
             Display.text(f8x16, '', 0, line)
             Display.text(f8x16, f'Internal_Temp:{now_internal_temp}', 0, line)
             Display.text(f8x16, '', 0, line)
-            if status == 'Heating' or status == 'Flame Out!':
+            if status == 'Heating':
                 Display.text(f8x16, f'Status:{status}', 0, line, st7789.color565(255, 0, 0))
             else:
                 Display.text(f8x16, f'Status:{status}', 0, line, st7789.color565(0, 0, 255))
@@ -82,9 +82,26 @@ def updatepage():
             Display.fill(0)
             loadpage()
 
+        except FireDetected:
+            Display.fill(0)
+            heater.off()
+            line = AutoLine(40, 18)
+            Display.text(f8x16, 'Warning!!!', 0, line, st7789.color565(255, 0, 0))
+            Display.text(f8x16, '', 0, line)
+            Display.text(f8x16, 'Fire Detected', 0, line, st7789.color565(255, 0, 0))
+            Display.text(f8x16, '', 0, line)
+            Display.text(f8x16, 'Please Check', 0, line, st7789.color565(255, 0, 0))
+            Display.text(f8x16, '', 0, line)
+            Display.text(f8x16, 'Press Any Switch to Quit', 0, line, st7789.color565(255, 0, 0))
+            while SwitchA.value() and SwitchB.value():
+                pass
+            Display.fill(0)
+            loadpage()
+
         if not SwitchA.value() and not SwitchB.value():
             break
 
+    heater.off()
     set_var('page', 'home')
     set_var('to_page', pages.home)
     return
