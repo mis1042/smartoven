@@ -25,7 +25,8 @@ def updatepage():
             work_time = getvalue('work_config')[1]
             when_finish = time.time() + work_time * 60
             remove_var('update_config')
-
+            Display.fill(0)
+            loadpage()
         try:
 
             if flame.value():
@@ -36,6 +37,10 @@ def updatepage():
             now_ambient_temp = low_temp.temperature()
             now_ambient_hum = low_temp.humidity()
             remain_time = when_finish - time.time()
+
+            working_info = [now_internal_temp, now_ambient_temp, now_ambient_hum, target_temp, remain_time]
+            set_var('working_status', 'working')
+            set_var('working_info', working_info)
 
             if remain_time <= 0:
                 break
@@ -67,10 +72,12 @@ def updatepage():
             Display.fill(0)
             heater.off()
             error = ''
+            set_var('working_status', 'Sensor Error')
             if getvalue('high_temp_error'):
-                error += "Sensor 1, "
+                error += "Sensor 1 "
             if getvalue('low_temp_error'):
                 error += "Sensor 2"
+
             line = AutoLine(40, 18)
             Display.text(f8x16, f'{error} Error', 0, line, st7789.color565(255, 0, 0))
             Display.text(f8x16, '', 0, line)
@@ -83,6 +90,7 @@ def updatepage():
             loadpage()
 
         except FireDetected:
+            set_var('working_status', 'Fire Detected')
             Display.fill(0)
             heater.off()
             line = AutoLine(40, 18)
@@ -102,6 +110,8 @@ def updatepage():
             break
 
     heater.off()
+    remove_var('working_status')
+    remove_var('working_info')
     set_var('page', 'home')
     set_var('to_page', pages.home)
     return

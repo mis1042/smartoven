@@ -18,7 +18,7 @@ def read_basic_config():
     set_var('port', config['Server_Config']['port'])
     set_var('connect_username', config['Server_Config']['user'])
     set_var('connect_password', config['Server_Config']['password'])
-    set_var('ntp', config['Network_Config']['ntp'])
+    set_var('ntp', config['Server_Config']['ntp'])
 
 
 def set_var(key, value):

@@ -79,6 +79,9 @@ def updatepage():
                     set_var('to_page', pages.home)
                     return
 
+        switch_to_working()
+        check_work_plan()
+
 
 def __update_work_time(work_time):
     Display.rect(0, getvalue('work_time_line') - 2, 240, 20, st7789.color565(0, 0, 0))
@@ -88,9 +91,3 @@ def __update_work_time(work_time):
 def __update_target_temp(target_temp):
     Display.rect(0, getvalue('target_temp_line') - 2, 240, 20, st7789.color565(0, 0, 0))
     Display.text(f8x16, 'Target Temp: %3d C' % target_temp, 0, getvalue('target_temp_line'))
-
-
-"""
-Display.text(f16x16, 'START', 80, 180)
-Display.rect(75, 175, 90, 26, 0xffffff)
-"""

@@ -1,6 +1,7 @@
 import math
 import time
 
+import pages.working
 from config.global_variable import *
 
 
@@ -49,7 +50,8 @@ class HighTemp(TempSensor):
         while True:
             if time.time() - start_measure >= 5:
                 set_var('high_temp_error', 1)
-                return
+                print('high_temp_timeout')
+                raise SensorError
             try:
                 self.last_read = time.time()
                 self.device_object.convert_temp()
@@ -57,11 +59,12 @@ class HighTemp(TempSensor):
                 self.value = self.device_object.read_temp(self.rom)
                 remove_var('high_temp_error')
                 return
-            except:
+            except Exception as e:
                 error += 1
                 if error >= 3:
                     set_var('high_temp_error', 1)
-                    return
+                    print(e)
+                    raise SensorError
 
 
 class LowTemp(TempSensor):
@@ -74,7 +77,8 @@ class LowTemp(TempSensor):
         while True:
             if time.time() - start_measure >= 5:
                 set_var('low_temp_error', 1)
-                return
+                print('low_temp_timeout')
+                raise SensorError
             try:
                 self.last_read = time.time()
                 self.device_object.measure()
@@ -82,11 +86,12 @@ class LowTemp(TempSensor):
                 self.value = self.device_object
                 remove_var('low_temp_error')
                 return
-            except:
+            except Exception as e:
                 error += 1
                 if error >= 3:
                     set_var('low_temp_error', 1)
-                    return
+                    print(e)
+                    raise SensorError
 
 
 def no_adc_wrong(adc_object):
@@ -111,9 +116,23 @@ class FireDetected(Exception):
 
 def check_sensors(sensor1, sensor2):
     value1 = sensor1.read()
-    if getvalue('high_temp_error') == 1:
-        raise SensorError('High Temp Sensor Error')
     value2 = sensor2.read()
-    if getvalue('low_temp_error') == 1:
-        raise SensorError('Low Temp Sensor Error')
     return value1, value2
+
+
+def switch_to_working():
+    if getvalue('page') == 'working':
+        set_var('page', 'working')
+        set_var('to_page', pages.working)
+        return
+
+
+def check_work_plan():
+    for i in getvalue('work_plan'):
+        if i['start_time'] <= time.time():
+            target_temp = i['target_temp']
+            work_time = i['work_time']
+            set_var('work_config', [target_temp, work_time])
+            set_var('page', 'working')
+            set_var('to_page', pages.working)
+            getvalue('work_plan').remove(i)

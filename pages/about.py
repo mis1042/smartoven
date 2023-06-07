@@ -6,7 +6,7 @@ import vga1_8x16 as f8x16
 import pages.home
 from config.board_info import *
 from config.global_variable import *
-from tools import AutoLine
+from tools import AutoLine, switch_to_working, check_work_plan
 
 
 def loadpage():
@@ -84,3 +84,6 @@ def updatepage():
             set_var('page', 'home')
             set_var('to_page', pages.home)
             return
+
+        switch_to_working()
+        check_work_plan()
