@@ -23,6 +23,8 @@ def updatepage():
         if getvalue('update_config'):
             target_temp = getvalue('work_config')[0]
             work_time = getvalue('work_config')[1]
+            if work_time == 0:
+                break
             when_finish = time.time() + work_time * 60
             remove_var('update_config')
             Display.fill(0)
