@@ -82,7 +82,7 @@ if getvalue('network_mode') == 1:
     port = getvalue('port')
     client_id = getvalue('device_id')
     try:
-        connect_to_server(server, port, str(client_id))
+        connect_to_server(server, port, str(client_id), getvalue('connect_username'), getvalue('connect_password'))
         Display.text(font, 'SUCCESS', 0, line, st7789.color565(0, 255, 0))
         _thread.start_new_thread(receive, ())
     except Exception as e:

@@ -94,8 +94,8 @@ def on_message(topic, msg):
         print(e)
 
 
-def connect_to_server(server, port, client_id):
-    client = MQTTClient(client_id, server, port)
+def connect_to_server(server, port, client_id, username, password):
+    client = MQTTClient(client_id, server, port, username, password)
     client.set_callback(on_message)
     client.connect()
     set_var('mqtt_client', client)
