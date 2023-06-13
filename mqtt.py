@@ -54,13 +54,13 @@ def on_message(topic, msg):
                     }))
 
             if msg['operation'] == 'set_work_config':
-                work_time = msg['work_time']
-                target_temp = msg['target_temp']
+                work_time = int(msg['work_time'])
+                target_temp = int(msg['target_temp'])
                 set_var('work_config', [target_temp, work_time])
 
-                if getvalue('page') != 'working':
+                if getvalue('page') != 'working' and work_time != 0:
                     set_var('page', 'working')
-                else:
+                elif getvalue('page') == 'working':
                     set_var('update_config', True)
 
                 send(ujson.dumps({
@@ -71,10 +71,10 @@ def on_message(topic, msg):
 
             if msg['operation'] == 'add_work_plan':
                 work_plan = {
-                    "plan_id": msg['plan_id'],
-                    "start_time": msg['start_time'],
-                    "work_time": msg['work_time'],
-                    "target_temp": msg['target_temp']
+                    "plan_id": int(msg['plan_id']),
+                    "start_time": int(msg['start_time']),
+                    "work_time": int(msg['work_time']),
+                    "target_temp": int(msg['target_temp'])
                 }
                 getvalue('work_plan').append(work_plan)
 
@@ -86,9 +86,14 @@ def on_message(topic, msg):
 
             if msg['operation'] == 'delete_work_plan':
                 for plan in getvalue('work_plan'):
-                    if plan['plan_id'] == msg['plan_id']:
+                    if plan['plan_id'] == int(msg['plan_id']):
                         getvalue('work_plan').remove(plan)
                         break
+                send(ujson.dumps({
+                    "source": "device",
+                    "operation": "ack",
+                    "ack_seq": msg['seq']
+                }))
 
     except Exception as e:
         print(e)

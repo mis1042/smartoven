@@ -27,7 +27,7 @@ def updatepage():
         Display.text(f8x16, 'Next Works:', 0, line)  # 40
 
         if getvalue('work_plan')[0:3] != plans_displaying:
-            plans_displaying = getvalue('work_plan')[0:3]
+            plans_displaying = getvalue('work_plan')[0:6]
             Display.fill_rect(0, 58, 240, 240 - 58, st7789.color565(0, 0, 0))
             for i in plans_displaying[0:3]:
                 start_time = time.localtime(i['start_time'])
@@ -36,7 +36,7 @@ def updatepage():
                                  start_time[0], start_time[1], start_time[2], start_time[3], start_time[4],
                                  start_time[5]),
                              0, line)
-                Display.text(f8x16, '', 0, line)
+                # Display.text(f8x16, '', 0, line)
 
         time.sleep_ms(100)
 
