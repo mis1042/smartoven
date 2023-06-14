@@ -26,10 +26,10 @@ def updatepage():
         line = AutoLine(40, 18)
         Display.text(f8x16, 'Next Works:', 0, line)  # 40
 
-        if getvalue('work_plan')[0:3] != plans_displaying:
-            plans_displaying = getvalue('work_plan')[0:6]
+        if getvalue('work_plan')[0:5] != plans_displaying[0:5]:
+            plans_displaying = getvalue('work_plan')[0:5]
             Display.fill_rect(0, 58, 240, 240 - 58, st7789.color565(0, 0, 0))
-            for i in plans_displaying[0:3]:
+            for i in plans_displaying[0:5]:
                 start_time = time.localtime(i['start_time'])
                 Display.text(f8x16,
                              '%d-%d-%d %02d:%02d:%02d' % (
