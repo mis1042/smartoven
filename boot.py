@@ -20,6 +20,7 @@ init_var()
 read_basic_config()
 Display.init()
 heater.off()
+set_var('work_plan', [])
 
 if not SwitchA.value() and not SwitchB.value():
     # main.main()
@@ -110,6 +111,5 @@ while errors > 0:
     pass
 
 Display.text(font, 'Initialization Completed', 0, line, st7789.color565(0, 255, 0))
-set_var('work_plan', [])
 main.main()
 heater.off()

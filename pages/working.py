@@ -47,7 +47,7 @@ def updatepage():
             if remain_time <= 0:
                 break
 
-            if now_internal_temp <= target_temp - 5:
+            if now_internal_temp <= target_temp:
                 status = 'Heating'
                 heater.on()
             else:
