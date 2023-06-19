@@ -65,16 +65,22 @@ else:
 if getvalue('network_mode') == 1:
     ntptime.host = getvalue('ntp')
     Display.text(font, 'Getting Time From NTP...', 0, line)
-    try:
-        ntptime.settime()
-        (year, month, mday, hour, minute, second, weekday, yearday) = time.localtime()
-        rtc = RTC()
-        rtc.datetime((year, month, mday, 0, hour + 8, minute, second, 0))
-        Display.text(font, 'SUCCESS', 0, line, st7789.color565(0, 255, 0))
+    retry = 0
+    for i in range(3):
+        try:
+            ntptime.settime()
+            (year, month, mday, hour, minute, second, weekday, yearday) = time.localtime()
+            rtc = RTC()
+            rtc.datetime((year, month, mday, 0, hour + 8, minute, second, 0))
+            Display.text(font, 'SUCCESS', 0, line, st7789.color565(0, 255, 0))
+            break
 
-    except Exception as e:
-        Display.text(font, 'FAILED', 0, line, st7789.color565(255, 0, 0))
-        print(e)
+        except Exception as e:
+            print(e)
+            retry += 1
+            if retry >= 3:
+                Display.text(font, 'FAILED', 0, line, st7789.color565(255, 0, 0))
+                break
 
 # 连接到服务器
 if getvalue('network_mode') == 1:
