@@ -66,20 +66,6 @@ def updatepage():
                 Display.text(f8x16, f'Ambient Hum: FAILED', 0, getvalue('low_hum_line'), st7789.color565(255, 0, 0))
             """
 
-        if not SwitchA.value() and not SwitchB.value():
-            line1 = AutoLine(40, 18)
-            Display.fill(0)
-            Display.text(f16x16, 'Design Team', 30, 0)
-            Display.text(f8x16, 'Developer: Zhang Ziqing', 0, line1, st7789.color565(245, 169, 184))
-            Display.text(f8x16, '', 0, line1)
-            Display.text(f8x16, 'Introducer: Hu Lulu', 0, line1, st7789.color565(245, 169, 184))
-            Display.text(f8x16, '', 0, line1)
-            Display.text(f8x16, 'Writer: Luo Biao', 0, line1, st7789.color565(91, 206, 250))
-            while True:
-                if not SwitchA.value() or not SwitchB.value():
-                    Display.fill(0)
-                    loadpage()
-                    break
         if not SwitchB.value() and SwitchA.value():
             set_var('page', 'home')
             set_var('to_page', pages.home)
